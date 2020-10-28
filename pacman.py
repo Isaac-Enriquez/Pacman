@@ -133,17 +133,17 @@ def move():
             point.move(course)
         else:
             options = [
-                vector(5, 0),
-                vector(-5, 0),
-                vector(0, 5),
-                vector(0, -5),
+                vector(12, 0),
+                vector(-12, 0),
+                vector(0, 12),
+                vector(0, -12),
             ]
             plan = choice(options)
             course.x = plan.x
             course.y = plan.y
 
         up()
-        goto(point.x + 10, point.y + 10)
+        goto(point.x + 12, point.y + 12)
         dot(20, 'red')
 
     update()
