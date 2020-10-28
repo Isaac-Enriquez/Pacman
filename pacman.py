@@ -127,7 +127,7 @@ def move():
     goto(pacman.x + 10, pacman.y + 10)
     dot(20, 'yellow')
 
-    #Esta condición
+    #Esta condición inicia y mueve a los fantasmas
     for point, course in ghosts:
         if valid(point + course):
             point.move(course)
@@ -162,13 +162,17 @@ def change(x, y):
         aim.x = x
         aim.y = y
 
+#Se crea el recuadro inicial y se esconde la tortuga
 setup(420, 420, 370, 0)
 hideturtle()
 tracer(False)
+#Estas lineas crean y actualizan el puntaje
 writer.goto(160, 160)
 writer.color('white')
 writer.write(state['score'])
 listen()
+#Estas lineas hacen que Pacman cambien su
+#dirección según la tecla que es presionada
 onkey(lambda: change(5, 0), 'Right')
 onkey(lambda: change(-5, 0), 'Left')
 onkey(lambda: change(0, 5), 'Up')
