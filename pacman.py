@@ -126,24 +126,62 @@ def move():
     up()
     goto(pacman.x + 10, pacman.y + 10)
     dot(20, 'yellow')
-
+ 
     #Esta condición inicia y mueve a los fantasmas
     for point, course in ghosts:
-        if valid(point + course):
+        
+        if valid(point + course): 
             point.move(course)
         else:
             options = [
-                vector(12, 0),
-                vector(-12, 0),
-                vector(0, 12),
-                vector(0, -12),
+                vector(10, 0),
+                vector(-10, 0),
+                vector(0, 10),
+                vector(0, -10),
             ]
-            plan = choice(options)
-            course.x = plan.x
-            course.y = plan.y
+            
+            
+            #Este contador es para que no se queden
+            #sin moverse si Pacman se queda quieto
+            counter = 0
+            for i in range(3):
+                #Este bloque de condiciones detecta si Pacman está más a un
+                #lado y guían gentilmente a los fantasmas hacia el jugador
+                #sin que sean unas máquinas asesinas como en Terminator.
+                #Igual son capaces de atraparlo si se queda quieto mucho tiempo
+                #o si el jugador es descuidado con sus movimientos
+                if pacman.x > ghosts[i][0].x and counter < 2:
+                    plan = options[0] #Elige moverse más a la derecha
+                    course.x = plan.x
+                    course.y = plan.y
+                    counter +=1
+                elif pacman.y > ghosts[i][0].y and counter < 2:
+                    plan = options[2] #Elige moverse más arriba
+                    course.x = plan.x
+                    course.y = plan.y
+                    counter +=1
+                elif pacman.x < ghosts[i][0].x and counter < 2:
+                    plan = options[1] #Elige moverse más a la izquierda
+                    course.x = plan.x
+                    course.y = plan.y
+                    counter +=1
+                elif pacman.y < ghosts[i][0].y and counter < 2:
+                    plan = options[3] #Elige moverse más abajo
+                    course.x = plan.x
+                    course.y = plan.y
+                    counter +=1
+                
+                #Si los fantasmas gastas 2 oportunidades de movimiento para acercarse
+                #se hace que se muevan aletoriamente en la siguiente elección
+                else:
+                    plan = choice(options)
+                    course.x = plan.x
+                    course.y = plan.y
+                    counter = 0
+
 
         up()
-        goto(point.x + 12, point.y + 12)
+        goto(point.x + 10, point.y + 10)
         dot(20, 'red')
 
     update()
@@ -151,7 +189,7 @@ def move():
     for point, course in ghosts:
         if abs(pacman - point) < 20:
             return
-
+        
     ontimer(move, 50)
 
 #Esta función cambia la dirección de Pacman
